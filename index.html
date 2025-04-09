@@ -45,6 +45,19 @@
             </form>
         </section>
 
+        <section id="login" style="display: none;">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" required>
+                
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" required>
+                
+                <button type="submit">Login</button>
+            </form>
+        </section>
+
         <section id="dashboard" style="display: none;">
             <h2>Welcome to Your Dashboard</h2>
             <p>Here are our services:</p>
@@ -63,10 +76,16 @@
         <p>&copy; 2023 Rental Services</p>
     </footer>
     <script>
-        // JavaScript for handling sign-up and redirecting to the dashboard
+        // JavaScript for handling sign-up and login
         const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
         const dashboard = document.getElementById('dashboard');
+        const loginSection = document.getElementById('login');
+        const signupSection = document.getElementById('signup');
 
+        let users = []; // Array to store user details
+
+        // Handle sign-up
         signupForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form submission
 
@@ -76,12 +95,35 @@
             const password = document.getElementById('signupPassword').value;
             const phone = document.getElementById('signupPhone').value;
 
-            // Simulate account creation (you can replace this with a backend API call)
+            // Save user details
+            users.push({ name, email, password, phone });
             console.log('Account Created:', { name, email, password, phone });
 
-            // Hide the sign-up form and show the dashboard
-            signupForm.style.display = 'none';
-            dashboard.style.display = 'block';
+            // Hide the sign-up form and show the login form
+            signupSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+
+        // Handle login
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Collect login details
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Check if user exists
+            const user = users.find(user => user.email === email && user.password === password);
+
+            if (user) {
+                console.log('Login Successful:', user);
+
+                // Hide the login form and show the dashboard
+                loginSection.style.display = 'none';
+                dashboard.style.display = 'block';
+            } else {
+                alert('Invalid email or password. Please try again.');
+            }
         });
     </script>
 </body>
